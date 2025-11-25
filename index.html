@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models - Héctor Laria, Alexandra Gomez-Villa, Jiang Qin, Muhammad Atif Butt, Bogdan Raducanu, Javier Vazquez-Corral, Joost van de Weijer, Kai Wang">
+  <meta name="description" content="A novel approach for precise RGB-level color control in text-to-image diffusion models without any fine-tuning.">
+  <meta name="keywords" content="diffusion models, text-to-image, color control, semantic binding, computer vision, generative AI, training-free">
+  <meta name="author" content="Héctor Laria, Alexandra Gomez-Villa, Jiang Qin, Muhammad Atif Butt, Bogdan Raducanu, Javier Vazquez-Corral, Joost van de Weijer, Kai Wang">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Computer Vision Center">
+  <meta property="og:title" content="Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models">
+  <meta property="og:description" content="A novel approach for precise RGB-level color control in text-to-image diffusion models without any fine-tuning.">
+  <meta property="og:url" content="https://hecoding.github.io/colorwave-page">
+  <meta property="og:image" content="https://hecoding.github.io/colorwave-page/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models - Research Preview">
+  <meta property="article:published_time" content="2026-01-01T00:00:00.000Z">
+  <meta property="article:author" content="Héctor Laria">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="diffusion models">
+  <meta property="article:tag" content="text-to-image">
+  <meta property="article:tag" content="color control">
+  <meta property="article:tag" content="semantic binding">
+  <meta property="article:tag" content="computer vision">
+  <meta property="article:tag" content="generative AI">
+  <meta property="article:tag" content="training-free">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@CVC_UAB">
+  <meta name="twitter:creator" content="@hector_laria">
+  <meta name="twitter:title" content="Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models">
+  <meta name="twitter:description" content="A novel approach for precise RGB-level color control in text-to-image diffusion models without any fine-tuning.">
+  <meta name="twitter:image" content="https://hecoding.github.io/colorwave-page/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models - Research Preview">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models">
+  <meta name="citation_author" content="Laria, Héctor">
+  <meta name="citation_author" content="Gomez-Villa, Alexandra">
+  <meta name="citation_author" content="Qin, Jiang">
+  <meta name="citation_author" content="Butt, Muhammad Atif">
+  <meta name="citation_author" content="Raducanu, Bogdan">
+  <meta name="citation_author" content="Vazquez-Corral, Javier">
+  <meta name="citation_author" content="van de Weijer, Joost">
+  <meta name="citation_author" content="Wang, Kai">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="WACV">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2503.09864.pdf">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <title>Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models - Héctor Laria, Alexandra Gomez-Villa, Jiang Qin, Muhammad Atif Butt, Bogdan Raducanu, Javier Vazquez-Corral, Joost van de Weijer, Kai Wang | Academic Research</title>
+  
+  <!-- Favicon and App Icons -->
+  <!-- <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"> -->
+  <link rel="icon" type="image/png" href="static/images/favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="static/images/favicon.png">
+  
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models",
+    "description": "A novel approach for precise RGB-level color control in text-to-image diffusion models without any fine-tuning.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Héctor Laria",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Alexandra Gomez-Villa",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Jiang Qin",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Muhammad Atif Butt",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Bogdan Raducanu",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Javier Vazquez-Corral",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Joost van de Weijer",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Kai Wang",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      }
+    ],
+    "datePublished": "2026-01-01",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Winter Conference on Applications of Computer Vision"
+    },
+    "url": "https://hecoding.github.io/colorwave-page",
+    "image": "https://hecoding.github.io/colorwave-page/static/images/social_preview.png",
+    "keywords": ["diffusion models", "text-to-image", "color control", "semantic binding", "computer vision", "generative AI", "training-free"],
+    "abstract": "Recent advances in text-to-image (T2I) diffusion models have enabled remarkable control over various attributes, yet precise color specification remains a fundamental challenge. Existing approaches, such as ColorPeel, rely on model personalization, requiring additional optimization and limiting flexibility in specifying arbitrary colors. In this work, we introduce <strong>ColorWave</strong>, a novel training-free approach that achieves exact RGB-level color control in diffusion models without fine-tuning. By systematically analyzing the cross-attention mechanisms within IP-Adapter, we uncover an implicit binding between textual color descriptors and reference image features. Leveraging this insight, our method rewires these bindings to enforce precise color attribution while preserving the generative capabilities of pretrained models. Our approach maintains generation quality and diversity, outperforming prior methods in accuracy and applicability across diverse object categories. Through extensive evaluations, we demonstrate that ColorWave establishes a new paradigm for structured, color-consistent diffusion-based image synthesis.",
+    "citation": "@inproceedings{laria2026colorwave,
+  title={Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models},
+  author={Laria, H{\'e}ctor and Gomez-Villa, Alexandra and Qin, Jiang and Butt, Muhammad Atif and Raducanu, Bogdan and Vazquez-Corral, Javier and van de Weijer, Joost and Wang, Kai},
+  booktitle={Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year={2026}
+}",
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://hecoding.github.io/colorwave-page"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "diffusion models"
+      },
+      {
+        "@type": "Thing",
+        "name": "text-to-image"
+      },
+      {
+        "@type": "Thing",
+        "name": "color control"
+      },
+      {
+        "@type": "Thing",
+        "name": "semantic binding"
+      },
+      {
+        "@type": "Thing",
+        "name": "computer vision"
+      },
+      {
+        "@type": "Thing",
+        "name": "generative AI"
+      },
+      {
+        "@type": "Thing", 
+        "name": "training-free"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Website/Organization Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Computer Vision Center",
+    "url": "https://www.cvc.uab.es",
+    "logo": "https://hecoding.github.io/colorwave-page/static/images/favicon.png",
+    "sameAs": [
+      "https://twitter.com/hector_laria",
+      "https://github.com/hecoding"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://hecoding.github.io" target="_blank">Héctor Laria</a><sup>1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://sites.google.com/view/alex-gomez-villa" target="_blank">Alexandra Gomez-Villa</a><sup>1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=wN5vmiUAAAAJ" target="_blank">Jiang Qin</a><sup>3</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=vf7PeaoAAAAJ" target="_blank">Muhammad Atif Butt</a><sup>1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=zdIW07oAAAAJ" target="_blank">Bogdan Raducanu</a><sup>1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.jvazquez-corral.net" target="_blank">Javier Vazquez-Corral</a><sup>1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=Gsw2iUEAAAAJ" target="_blank">Joost van de Weijer</a><sup>1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://wangkai930418.github.io" target="_blank">Kai Wang</a><sup>1,4,5</sup>
+              </span>
+            </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <!-- <span class="author-block">Institution Name<br>Conference name and year</span> -->
+                    <span class="author-block"><sup>1</sup>Computer Vision Center, Spain</span>
+                    <span class="author-block"><sup>2</sup>Universitat Autònoma de Barcelona</span><br>
+                    <span class="author-block"><sup>3</sup>Harbin Institute of Technology</span>
+                    <span class="author-block"><sup>4</sup>City University of Hong Kong</span><br>
+                    <span class="author-block"><sup>5</sup>Program of Computer Science, City University of Hong Kong (Dongguan)<br>WACV 2026</span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/2503.09864.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                  <span class="link-block">
+                    <a href="#" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="#" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-play"></i>
+                  </span>
+                  <span>Demo</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/figure1_teaser.svg" alt="ColorWave teaser showing color interpolation" style="width: 100%; height: auto;"/>
+      <h2 class="subtitle has-text-centered">
+        <strong>ColorWave</strong> accurately reproduces subtle color variations in smooth interpolation between similar tones. Each column shows a different target object rendered with gradually shifting colors (displayed above each image). The results demonstrate that our method is sensitive to small changes in the RGB color space while preserving realistic object appearance and scene composition.
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Recent advances in text-to-image (T2I) diffusion models have enabled remarkable control over various attributes, yet precise color specification remains a fundamental challenge. Existing approaches, such as ColorPeel, rely on model personalization, requiring additional optimization and limiting flexibility in specifying arbitrary colors. In this work, we introduce <strong>ColorWave</strong>, a novel training-free approach that achieves exact RGB-level color control in diffusion models without fine-tuning. By systematically analyzing the cross-attention mechanisms within IP-Adapter, we uncover an implicit binding between textual color descriptors and reference image features. Leveraging this insight, our method rewires these bindings to enforce precise color attribution while preserving the generative capabilities of pretrained models. Our approach maintains generation quality and diversity, outperforming prior methods in accuracy and applicability across diverse object categories. Through extensive evaluations, we demonstrate that <strong>ColorWave</strong> establishes a new paradigm for structured, color-consistent diffusion-based image synthesis.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!-- Key Insight: Semantic Attribute Binding -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Motivation: Semantic Attribute Binding</h2>
+
+          <div class="content has-text-justified">
+            <p>
+              The core discovery behind ColorWave is <strong>semantic attribute binding</strong> — an implicit connection within IP-Adapter between visual attributes in reference images and their corresponding linguistic descriptors in text prompts. This previously unexplored property enables precise RGB-level color manipulation without any model fine-tuning.
+            </p>
+          </div>
+
+          <!-- First image - full width -->
+          <div class="columns is-centered" style="margin-top: 2rem;">
+            <div class="column is-full-width">
+              <img src="static/images/figure2_semantic_binding.svg" alt="Semantic attribute binding illustration" style="width: 100%; height: auto;"/>
+              <p class="caption has-text-centered">
+                <strong>Illustration of semantic attribute binding.</strong> Given a color name in the prompt, the model picks the respective color from the reference image. This binding persists even when colors are changed or synthetic patches are used.
+              </p>
+            </div>
+          </div>
+
+          <!-- Second image - two-thirds width -->
+          <div class="columns is-centered" style="margin-top: 2rem;">
+            <div class="column is-two-thirds">
+              <img src="static/images/figure3_similarity_heatmap.svg" alt="Similarity matrix visualization" style="width: 100%; height: auto;"/>
+              <p class="caption has-text-centered">
+                <strong>Similarity matrix between color names and RGB values.</strong> The heatmap shows normalized dot product similarity between key projections of color word tokens and image features, revealing implicit color-semantic bindings.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Key Insight section -->
+
+  <!-- Diverse Object Results -->
+  <section class="hero is-small is-light">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Arbitrary Color Attribution Across Diverse Objects</h2>
+
+            <div class="content has-text-justified">
+              <p>
+                ColorWave precisely applies user-specified colors to a wide range of subjects including inanimate objects, animals, plants, and human clothing. Our method successfully generates images where target objects accurately reflect the desired reference colors while maintaining high visual quality across diverse scenarios.
+              </p>
+            </div>
+
+            <div class="columns is-centered" style="margin-top: 2rem;">
+              <div class="column is-three-quarters">
+                <img src="static/images/figure6_diverse_objects.svg" alt="ColorWave results on diverse objects" style="width: 100%; height: auto;"/>
+                <p class="caption has-text-centered">
+                  ColorWave precisely applies user-specified colors to various target objects (bowl, bowling ball, plate, vase, pants, teddy bear, snooker ball, parrot, sofa, rose) while maintaining natural lighting, material properties, and contextual integration.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End diverse objects section -->
+
+  <!-- Method section -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Method</h2>
+
+          <div class="content has-text-justified">
+            <p>
+              ColorWave is a novel training-free approach that enables precise RGB color control in text-to-image diffusion models. Unlike previous methods, our approach doesn't require any additional optimization or model fine-tuning. The key insight behind ColorWave is the discovery of semantic attribute binding — an implicit connection between visual attributes in reference images and their corresponding linguistic descriptors in text prompts.
+            </p>
+          </div>
+
+          <div class="columns is-centered">
+            <div class="column is-two-thirds">
+              <img src="static/images/figure4_method_diagram.svg" alt="ColorWave method overview diagram" style="width: 100%; height: auto;"/>
+              <p class="caption has-text-centered">
+                <strong>Overview of ColorWave.</strong> Our approach leverages semantic attribute binding between IP-Adapter and text cross-attention pathways to achieve precise color control. User-specified RGB values are encoded through IP-Adapter and selectively bound to object tokens in the text prompt, enabling training-free color attribution while preserving generative quality.
+              </p>
+            </div>
+          </div>
+
+          <div class="content has-text-justified">
+            <p>
+              By systematically analyzing the cross-attention mechanisms within the IP-Adapter framework, we identified that the adapter inherently associates specific color values with their linguistic descriptors, enabling exact color specification without requiring additional training or fine-tuning. Our approach effectively "rewires" these connections to establish precise color attribution to target objects while maintaining the generative capabilities of the underlying diffusion model.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End method section -->
+
+  <!-- Comparison section -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Comparison with Prior Work</h2>
+
+          <div class="content has-text-justified">
+            <p>
+              Unlike previous methods like ColorPeel that require separate optimization processes for each individual color, ColorWave inherently accepts any arbitrary RGB triplet without modification. This represents not just an incremental improvement but a <strong>paradigm shift</strong> in how precise color control can be achieved in generative models.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quantitative metrics -->
+      <div class="columns is-centered" style="margin-top: 3rem;">
+        <div class="column is-full-width">
+          <h3 class="title is-4">Quantitative Evaluation</h3>
+          <div class="content has-text-justified">
+            <p>
+              ColorWave achieves notably lower ΔE error in CIE Lab color space compared to existing training-free methods, indicating perceptually better colors. Our method also achieves comparatively lower mean angular error in both sRGB and Hue, signifying higher color accuracy in terms of chromaticity and hue.
+            </p>
+          </div>
+          <div class="columns is-centered">
+            <div class="column is-three-quarters">
+              <img src="static/images/table1.png" alt="Quantitative comparison table" style="width: 100%; height: auto;"/>
+              <p class="caption has-text-centered">
+                <strong>Quantitative comparison with baselines.</strong> All metrics the smaller the better (↓). ColorWave outperforms all training-free methods and is competitive with training-based approaches despite requiring <strong>zero optimization time</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- End comparison section -->
+
+  <!-- Advanced Applications -->
+  <section class="section hero">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Advanced Applications</h2>
+
+          <div class="content has-text-justified">
+            <p>
+              Beyond simple color attribution, ColorWave can be extended to more sophisticated visual attribute control tasks like applying complex color patterns and transferring textures. These examples illustrate how semantic attribute binding extends beyond simple color matching to more sophisticated visual attribute control.
+            </p>
+          </div>
+
+          <div class="columns is-centered" style="margin-top: 2rem;">
+            <div class="column is-three-quarters">
+              <img src="static/images/figure7_patterns_textures.png" alt="Advanced applications of ColorWave" style="width: 100%; height: auto;"/>
+              <p class="caption has-text-centered">
+                <strong>Generalizability to complex color patterns and textures.</strong> ColorWave successfully handles intricate patterns (crystal, metal textures) and multi-object scenes, demonstrating the versatility of semantic attribute binding.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- End advanced applications -->
+
+  <!-- Extensive Results Gallery -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Extensive Results Gallery</h2>
+
+          <div class="content has-text-justified">
+            <p>
+              We showcase comprehensive results across various colors and object categories. Each grid demonstrates ColorWave's ability to handle different color specifications while maintaining consistent quality and accurate color reproduction across diverse objects.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carousel for color results -->
+      <div class="hero is-small" style="margin-top: 3rem;">
+        <div class="hero-body">
+          <div id="color-results-carousel" class="carousel results-carousel">
+            <div class="item">
+              <img src="static/images/figure14.png" alt="Red color results 1"/>
+              <h2 class="subtitle has-text-centered">
+                Maroon Objects
+              </h2>
+            </div>
+            <div class="item">
+              <img src="static/images/figure15.png" alt="Red color results 2"/>
+              <h2 class="subtitle has-text-centered">
+                Red Objects
+              </h2>
+            </div>
+            <div class="item">
+              <img src="static/images/figure16.png" alt="Pink color results"/>
+              <h2 class="subtitle has-text-centered">
+                Pink Objects
+              </h2>
+            </div>
+            <div class="item">
+              <img src="static/images/figure17.png" alt="Orange color results"/>
+              <h2 class="subtitle has-text-centered">
+                Orange Objects
+              </h2>
+            </div>
+            <div class="item">
+              <img src="static/images/figure18.png" alt="Purple color results"/>
+              <h2 class="subtitle has-text-centered">
+                Purple Objects
+              </h2>
+            </div>
+            <div class="item">
+              <img src="static/images/figure19.png" alt="Green color results"/>
+              <h2 class="subtitle has-text-centered">
+                Green Objects
+              </h2>
+            </div>
+            <div class="item">
+              <img src="static/images/figure20.png" alt="Blue color results 1"/>
+              <h2 class="subtitle has-text-centered">
+                Turquoise Objects
+              </h2>
+            </div>
+            <div class="item">
+              <img src="static/images/figure21.png" alt="Blue color results 2"/>
+              <h2 class="subtitle has-text-centered">
+                Navy Objects
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns is-centered" style="margin-top: 2rem;">
+        <div class="column is-full-width">
+          <div class="content has-text-justified">
+            <p>
+              All results show objects: bowl, vase, plate, ball, person, teddy bear, parrot, sofa, and rose. Reference colors are depicted in the external frame of each grid, demonstrating ColorWave's robustness across the color spectrum.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End results gallery -->
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@inproceedings{laria2026colorwave,
+  title={Leveraging Semantic Attribute Binding for Free-Lunch Color Control in Diffusion Models},
+  author={Laria, H{\'e}ctor and Gomez-Villa, Alexandra and Qin, Jiang and Butt, Muhammad Atif and Raducanu, Bogdan and Vazquez-Corral, Javier and van de Weijer, Joost and Wang, Kai},
+  booktitle={Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year={2026}
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter code  -->
+<script type="text/javascript">
+var sc_project=13185871; 
+var sc_invisible=1; 
+var sc_security="69608ce2"; 
+</script>
+<script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+<noscript><div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img class="statcounter" src="https://c.statcounter.com/13185871/0/69608ce2/1/" alt="Web Analytics" referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
+
+</body>
+</html>
